@@ -1,0 +1,17 @@
+.menu {
+  
+}
+
+.menu__items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu__item:not(:last-child) {
+  margin-right: 30px;
+}
+
+.menu__item.active {
+  color: blue;
+}
