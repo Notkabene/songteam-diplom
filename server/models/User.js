@@ -8,6 +8,7 @@ const schema = new Schema({
   password: {type: String},
   sex: {type: String, enum: ['male', 'female']},
   image: {type: String},
+  positionTeam: [{type: Schema.Types.ObjectId, ref: 'Quality'}],
   userRule: {type: String},
   birthday: {type: Number}
 }, {

@@ -13,7 +13,6 @@ const router = express.Router({
   mergeParams: true
 })
 
-
 router.post('/signUp', [
   check('email', 'E-mail введен не верно').isEmail(),
   check('password', 'Минимальная длина пароля 8 символов').isLength({
