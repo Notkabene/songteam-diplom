@@ -1,11 +1,11 @@
-.input-text {
+.input {
   width: 100%;
   border: 1px solid #b3b3b3;
   border-radius: 10px 0 0 10px;
   padding: 10px;
 }
 
-.input-text:focus {
+.input:focus {
   outline: 1px solid #5061FF;
   border-radius: 10px 0 0 10px;
 }

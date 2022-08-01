@@ -1,15 +1,10 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './navbar.css'
 
 const Navbar = () => {
-  const path = useLocation().pathname
+  // const path = useLocation().pathname
   const navMenu = [
-    {
-      name: 'Главная',
-      id: 'main',
-      link: '/'
-    },
     {
       name: 'Список песен',
       id: 'songlist',
@@ -33,7 +28,8 @@ const Navbar = () => {
           <li
             key={item.id}
             className={
-              path !== item.link ? 'menu__item link' : 'menu__item active'
+              'menu__item link'
+              // path !== item.link ? 'menu__item link' : 'menu__item active'
             }
           >
             <Link className="link" to={item.link}>

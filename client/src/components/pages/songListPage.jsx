@@ -1,16 +1,19 @@
 import React from 'react'
-import { songs } from '../../api/songs'
 import Search from '../ui/search/search'
 import SongItem from '../ui/songItem/songItem'
+import { useSelector } from 'react-redux'
+import { getSongs } from '../../store/songs'
 
 const SongListpage = () => {
+  const songsList = useSelector(getSongs())
+
   return (
     <main className="main">
       <div className="container">
         <Search/>
         <ul>
-          {songs.map((song) => (
-            <SongItem key={song.id} song={song} />
+          {songsList.map((song) => (
+            <SongItem key={song._id} song={song} />
           ))}
         </ul>
       </div>

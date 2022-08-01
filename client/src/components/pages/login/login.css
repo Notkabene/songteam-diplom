@@ -1,0 +1,30 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-form {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form__input {
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.login-form__input:focus {
+  border-radius: 10px;
+}
+
+.login-form__register {
+  margin-bottom: 20px;
+  align-self: flex-start;
+
+  /* margin: 0 auto; */
+}

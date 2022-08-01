@@ -4,19 +4,18 @@ import { Link } from 'react-router-dom'
 import './songItem.css'
 
 const SongItem = ({ song }) => {
-  console.log(typeof song)
   return (
     <li className="song-item">
       <div className="song-item__wrapper">
         <div className="song-item__top">
-          <Link to={`/songlist/${song.id}`}>
+          <Link to={`/songlist/${song._id}`}>
             <h3 className="song-item__title">{song.title}</h3>
             <p className="song-item__text">{song.text}</p>
           </Link>
         </div>
         <div className="song-item__info">
 
-          <Link to={`/songlist/${song.id}`}>
+          <Link to={`/songlist/${song._id}`}>
             <svg
               className="song-item__svg"
               xmlns="http://www.w3.org/2000/svg"

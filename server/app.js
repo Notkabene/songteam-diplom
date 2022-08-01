@@ -3,12 +3,14 @@ const mongoose = require('mongoose')
 const config = require('config')
 const chalk = require('chalk')
 const routes = require('./routes')
+const cors = require('cors')
 const initDataBase = require('./startApp/initDataBase')
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cors())
 app.use('/api', routes)
 
 

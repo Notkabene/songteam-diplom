@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { songs } from '../../../api/songs'
 import convert from 'react-from-dom'
 import './songPage.css'
+import { useSelector } from 'react-redux'
+import { getSongsbyId } from '../../../store/songs'
+// import Test from '../test'
 
 const SongPage = () => {
   const params = useParams()
   const { songId } = params
-  const currentSong = songs.find((song) =>
-    song.id === Number(songId) ? song : null
-  )
+  const currentSong = useSelector(getSongsbyId(songId))
 
   const getVideo = (videos) => {
     const newVideoList = videos.map((video, index) => {
@@ -30,13 +30,16 @@ const SongPage = () => {
           <h3 className="song-page__title">{currentSong.title}</h3>
           <div className="song-page__text">{currentSong.text}</div>
           <div className="song-page__chords">{currentSong.chords}</div>
+          {/* <Test text={currentSong.text}/> */}
           {/* СДЕЛАТЬ стили для Нет видео */}
           <div className="song-page__list">
-            {currentSong.linksVideo.length ? (
-              getVideo(currentSong.linksVideo)
-            ) : (
+            {currentSong.linksVideo.length
+              ? (
+                  getVideo(currentSong.linksVideo)
+                )
+              : (
               <p className="song-page__without">Нет видео</p>
-            )}
+                )}
           </div>
 
           <div className="song-page__icons">

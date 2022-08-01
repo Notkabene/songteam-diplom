@@ -5,6 +5,8 @@ const {
   check,
   validationResult
 } = require('express-validator')
+
+// TODO: УБРАТЬ generateUserData
 const {
   generateUserData
 } = require('../utils/helpers')
@@ -75,7 +77,7 @@ router.post('/signUp', [
 
 
 router.post('/signInWithPassword', [
-  check('email', 'E-mail не верный').normalizeEmail().isEmail(),
+  // check('email', 'E-mail не верный').normalizeEmail().isEmail(),
   check('password', 'Пароль не может быть пустым').exists(),
   async (req, res) => {
     try {
@@ -96,8 +98,10 @@ router.post('/signInWithPassword', [
       const existingUser = await User.findOne({
         email
       })
+      console.log('email', existingUser);
 
       if (!existingUser) {
+        console.log('email', existingUser);
         return res.status(400).json({
           error: {
             message: 'EMAIL_NOT_FOUND',

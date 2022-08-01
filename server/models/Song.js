@@ -8,7 +8,8 @@ const schema = new Schema({
   text: {type: String},
   chords: {type: String},
   linksVideo: [{type: String}],
-  isFavorite: {type: Boolean}
+  isFavorite: {type: Boolean},
+  isConcert: {type: Boolean}
 }, {
   timestamps: true
 })

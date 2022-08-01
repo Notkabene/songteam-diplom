@@ -1,13 +1,14 @@
 import React from 'react'
+import './createSong.css'
 
-const Login = () => {
+const CreateSong = () => {
   return (
     <main className="main">
       <div className="container">
-        <h1>Login</h1>
+        <h1>CreateSong</h1>
       </div>
     </main>
   )
 }
 
-export default Login
+export default CreateSong
