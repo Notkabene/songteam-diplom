@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import './navbar.css'
 
 const Navbar = () => {
-  // const path = useLocation().pathname
+  const path = useLocation().pathname
   const navMenu = [
     {
       name: 'Список песен',
@@ -16,11 +16,12 @@ const Navbar = () => {
       link: '/userslist'
     },
     {
-      name: 'Программа на воскресенье',
+      name: 'Концерт',
       id: 'sundayprogramm',
       link: '/sundayprogramm'
     }
   ]
+
   return (
     <nav className="menu">
       <ul className="menu__items">
@@ -28,8 +29,7 @@ const Navbar = () => {
           <li
             key={item.id}
             className={
-              'menu__item link'
-              // path !== item.link ? 'menu__item link' : 'menu__item active'
+              path !== item.link ? 'menu__item link' : 'menu__item active'
             }
           >
             <Link className="link" to={item.link}>

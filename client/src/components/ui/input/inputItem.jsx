@@ -6,7 +6,10 @@ const InputItem = ({ name, classes, onChange, type }) => {
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value })
   }
-  return <input type={type} name={name} className={classes} onChange={handleChange}></input>
+  const getClasses = () => {
+    return `input ${classes}`
+  }
+  return <input type={type} name={name} className={getClasses()} onChange={handleChange}></input>
 }
 
 InputItem.propTypes = {

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const navProfile = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector(getCurrentUserData())
-  console.log('currentUser', currentUser)
+  // console.log('currentUser', currentUser)
 
   function handleClick () {
     dispatch(logOut())

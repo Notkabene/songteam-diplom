@@ -1,0 +1,19 @@
+.create-song__title {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 30px;
+
+}
+
+.create-song__form {
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto;
+
+}
+
+.create-song__input {
+  margin-bottom: 20px;
+  border-radius: 10px;
+}

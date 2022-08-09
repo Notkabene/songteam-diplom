@@ -4,7 +4,7 @@
 import './linksVideo.css'
 
 const linksVideo = ({ test }) => {
-  console.log(test)
+  console.log('test', test)
   return test
 }
 

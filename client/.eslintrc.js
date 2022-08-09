@@ -13,5 +13,13 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    quotes: [
+      2,
+      'single',
+      {
+        allowTemplateLiterals: true,
+        avoidEscape: true
+      }
+    ]
   }
 }

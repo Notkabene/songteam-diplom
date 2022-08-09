@@ -5,8 +5,8 @@ import './search.css'
 // title, type, classes
 const Search = () => {
   return <form className='form-search' action="/">
-    <InputItem name={'search'} type={'text'}/>
-    <Button title={'Найти'} classes={'btn'} type={'button'}/>
+    <InputItem name='search' type='text'/>
+    <Button title='Найти' classes='btn' type='button'/>
   </form>
 }
 

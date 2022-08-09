@@ -3,7 +3,7 @@ import SongItem from '../songItem/songItem'
 import './songList.css'
 
 const SongList = ({ songs }) => {
-  console.log(songs)
+  // console.log(songs)
   return (
     <ul>
       {songs.map((song) => (

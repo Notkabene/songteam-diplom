@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import Button from '../../ui/button/button'
-import InputItem from '../../ui/input/inputItem'
-import './login.css'
+import Button from '../ui/button/button'
+import InputItem from '../ui/input/inputItem'
 import { useDispatch } from 'react-redux'
 // import { useHistory } from 'react-router-dom'
-import { login } from '../../../store/users'
+import { login } from '../../store/users'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
@@ -52,28 +51,27 @@ const Login = () => {
     // const isValid = validate()
     // if (!isValid) return
     const redirect = '/'
-    console.log(data)
 
     dispath(login({ payload: data, redirect }))
   }
   return (
-    <main className="main">
-      <div className="login">
-        <form className="login-form" onSubmit={handleSubmit}>
+    <main className="">
+      <div className="">
+        <form className="" onSubmit={handleSubmit}>
           <InputItem
-            classes='login-form__input input'
+            classes=''
             name='email'
             onChange={handleChange}
             type='email'
           />
           <InputItem
-            classes='login-form__input input'
+            classes=''
             name='password'
             onChange={handleChange}
             type='password'
           />
-          <Link className='login-form__register link' to='/register'>Регистрация</Link>
-          <Button classes="login-form__btn btn" title="Войти" type="submit" />
+          <Link className='' to='/register'>Регистрация</Link>
+          <Button classes="" title="Войти" type="submit" />
         </form>
       </div>
     </main>

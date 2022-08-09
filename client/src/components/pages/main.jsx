@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../ui/button/button'
+// import UsersLoader from '../ui/hoc/usersLoader'
 
 const Main = () => {
   return (
@@ -25,7 +26,7 @@ const Main = () => {
           quos ipsa dolores rem. Dicta at maiores deleniti modi reiciendis
           delectus non dignissimos iusto, sapiente adipisci accusamus qui?
         </p>
-        <Button classes={'btn'} title={'Кнопка'} type={'button'} />
+        <Button classes='' title='Кнопка' type='button' />
       </div>
     </main>
   )

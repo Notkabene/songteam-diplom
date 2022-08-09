@@ -3,7 +3,10 @@ import React from 'react'
 import './button.css'
 
 const Button = ({ title, type, classes }) => {
-  return <button className={classes} type={type}>
+  const getClasses = () => {
+    return `btn ${classes}`
+  }
+  return <button className={getClasses()} type={type}>
     {title}
     </button>
 }

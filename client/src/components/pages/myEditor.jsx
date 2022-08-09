@@ -2,12 +2,12 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Editor } from '@tinymce/tinymce-react'
 
-const Test = ({ text }) => {
+const MyEditor = ({ text }) => {
   const editorRef = useRef()
 
   function onClickHandler () {
     const text = editorRef.current.getContent()
-    console.log(text)
+    return text
   }
   return (
     <div>
@@ -22,8 +22,8 @@ const Test = ({ text }) => {
   )
 }
 
-Test.propTypes = {
+MyEditor.propTypes = {
   text: PropTypes.string
 }
 
-export default Test
+export default MyEditor

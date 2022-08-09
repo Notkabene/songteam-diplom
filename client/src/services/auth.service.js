@@ -14,7 +14,6 @@ const authService = {
     const {
       data
     } = await httpAuth.post('signUp', payload)
-    console.log('payload')
     return data
   },
   login: async ({

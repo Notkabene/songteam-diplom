@@ -1,5 +1,6 @@
 import {
-  createSlice
+  createSlice,
+  createAction
 } from '@reduxjs/toolkit'
 import songsService from '../services/songs.services'
 
@@ -22,6 +23,14 @@ const songsSlice = createSlice({
     songsRequestFiled: (state, action) => {
       state.error = action.payload
       state.isLoading = false
+    },
+    songCreated: (state, action) => {
+      state.entities.push(action.payload)
+    },
+    songRemoved: (state, action) => {
+      state.entities = state.entities.filter(
+        (c) => c._id !== action.payload
+      )
     }
   }
 })
@@ -33,9 +42,14 @@ const {
 const {
   songsRequested,
   songsReceved,
-  songsRequestFiled
+  songsRequestFiled,
+  songCreated,
+  songRemoved
 } =
 actions
+
+const addSongRequested = createAction('songs/addSongRequested')
+const removeSongRequested = createAction('songs/removeSongRequested')
 
 export const loadSongsList = () => async (dispatch, getState) => {
   dispatch(songsRequested())
@@ -48,6 +62,33 @@ export const loadSongsList = () => async (dispatch, getState) => {
     dispatch(songsRequestFiled(error.message))
   }
 }
+
+export const createSong = (payload) => async (dispatch, getState) => {
+  console.log('payload', payload)
+  dispatch(addSongRequested())
+  try {
+    const {
+      content
+    } = await songsService.createSong(payload)
+    dispatch(songCreated(content))
+  } catch (error) {
+    dispatch(songsRequestFiled(error.message))
+  }
+}
+export const removeSong = (songId) => async (dispatch) => {
+  dispatch(removeSongRequested())
+  try {
+    const {
+      content
+    } = await songsService.removeSong(songId)
+    if (!content) {
+      dispatch(songRemoved(songId))
+    }
+  } catch (error) {
+    dispatch(songsRequestFiled(error.message))
+  }
+}
+
 export const getSongs = () => (state) => state.songs.entities
 export const getSongsLoadingStatus = () => (state) =>
   state.songs.isLoading
