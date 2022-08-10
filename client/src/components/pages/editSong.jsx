@@ -13,8 +13,8 @@ const EditSong = () => {
   const currentSong = useSelector(getSongsbyId(songId))
 
   return (
-    <main className=''>
-      <div className="">
+    <main className='main'>
+      <div className="container">
         <h1>editSong</h1>
         <h2>Текст песни</h2>
         <MyEditor text={currentSong.text}/>

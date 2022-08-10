@@ -7,8 +7,8 @@ const UsersListPage = () => {
   const users = useSelector(getUsersList())
 
   return (
-    <main className="">
-      <div className="">
+    <main className="main">
+      <div className="container">
         <h1>UsersListPage</h1>
         <div>Сортировка</div>
         {users

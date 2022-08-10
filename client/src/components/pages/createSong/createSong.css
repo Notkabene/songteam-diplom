@@ -3,6 +3,7 @@
   line-height: 1.2;
   font-weight: 700;
   margin-bottom: 30px;
+  text-align: center;
 
 }
 
@@ -16,4 +17,12 @@
 .create-song__input {
   margin-bottom: 20px;
   border-radius: 10px;
+}
+
+.create-song__select {
+  width: 100%;
+  border: 1px solid #b3b3b3;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
 }

@@ -55,8 +55,8 @@ const Login = () => {
     dispath(login({ payload: data, redirect }))
   }
   return (
-    <main className="">
-      <div className="">
+    <main className="main">
+      <div className="container">
         <form className="" onSubmit={handleSubmit}>
           <InputItem
             classes=''

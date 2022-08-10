@@ -5,10 +5,9 @@ import SongItem from '../ui/songItem/songItem'
 
 const SundayProgramm = () => {
   const songsList = useSelector(getSongs())
-  console.log(songsList)
   return (
-    <main className="">
-      <div className="">
+    <main className="main">
+      <div className="container">
         <h1>SundayProgramm</h1>
         {songsList && <ul>
           {songsList.map((song) => (

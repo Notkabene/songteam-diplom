@@ -7,6 +7,7 @@ const schema = new Schema({
   language: {type: String},
   text: {type: String},
   chords: {type: String},
+  songId: {type: String},
   linksVideo: [{type: String}],
   isFavorite: {type: Boolean},
   isConcert: {type: Boolean}

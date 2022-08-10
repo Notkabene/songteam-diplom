@@ -9,7 +9,6 @@ import { Provider } from 'react-redux'
 // import history from './utils/history'
 
 const store = createStore()
-console.log(store)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

@@ -27,6 +27,11 @@ const songsSlice = createSlice({
     songCreated: (state, action) => {
       state.entities.push(action.payload)
     },
+    songUpdateSuccessed: (state, action) => {
+      state.entities[
+        state.entities.findIndex((u) => u.id === action.payload.id)
+      ] = action.payload
+    },
     songRemoved: (state, action) => {
       state.entities = state.entities.filter(
         (c) => c._id !== action.payload
@@ -43,6 +48,7 @@ const {
   songsRequested,
   songsReceved,
   songsRequestFiled,
+  songUpdateSuccessed,
   songCreated,
   songRemoved
 } =
@@ -50,6 +56,8 @@ actions
 
 const addSongRequested = createAction('songs/addSongRequested')
 const removeSongRequested = createAction('songs/removeSongRequested')
+const songUpdateFailed = createAction('songs/songUpdateFailed')
+const songUpdateRequested = createAction('songs/songUpdateRequested')
 
 export const loadSongsList = () => async (dispatch, getState) => {
   dispatch(songsRequested())
@@ -63,8 +71,20 @@ export const loadSongsList = () => async (dispatch, getState) => {
   }
 }
 
+export const updateSong = (payload) => async (dispatch) => {
+  dispatch(songUpdateRequested())
+  try {
+    const {
+      content
+    } = await songsService.update(payload)
+    dispatch(songUpdateSuccessed(content))
+  } catch (error) {
+    dispatch(songUpdateFailed(error.message))
+  }
+}
+
 export const createSong = (payload) => async (dispatch, getState) => {
-  console.log('payload', payload)
+  console.log('store', payload)
   dispatch(addSongRequested())
   try {
     const {

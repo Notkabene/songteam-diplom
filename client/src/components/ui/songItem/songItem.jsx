@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { updateSong } from '../../../store/songs'
 import './songItem.css'
 // import Button from '../button/button'
 
 const SongItem = ({ song }) => {
+  const dispatch = useDispatch()
   const handleClick = () => {
-
+    const newSong = { ...song, isConcert: !song.isConcert }
+    dispatch(updateSong(newSong))
   }
+
   return (
     <li className="song-item">
       <div className="song-item__wrapper">
@@ -24,8 +29,11 @@ const SongItem = ({ song }) => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
           >
-            <path
-              d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
+            {!song.isConcert
+              ? <path
+               d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
+              : <path d="M467.4,212.4H42.9c-24.2,0-43.7,19.6-43.7,43.7s19.6,43.7,43.7,43.7h424.5c24.2,0,43.7-19.6,43.7-43.7S491.5,212.4,467.4,212.4z"/>
+          }
           </svg>
 
           <a href={song.download} download>

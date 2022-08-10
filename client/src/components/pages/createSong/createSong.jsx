@@ -20,8 +20,8 @@ const CreateSong = () => {
   })
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(data)
-    dispatch(createSong(data))
+    const dateNow = new Date().valueOf()
+    dispatch(createSong({ ...data, songId: dateNow }))
   }
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -30,9 +30,11 @@ const CreateSong = () => {
     }))
   }
   const handleSelectChange = ({ target }) => {
+    const indexTarget = target.options.selectedIndex
+    const TextTarget = target.options[indexTarget].value
     setData((prevState) => ({
       ...prevState,
-      [target.name]: target.value
+      [target.name]: TextTarget
     }))
   }
   return (
@@ -40,8 +42,8 @@ const CreateSong = () => {
       <div className="container">
         <h1 className="create-song__title">Создание песни</h1>
         <form className="create-song__form form" onSubmit={handleSubmit}>
-          <label className="">
-            <span className="">Название</span>
+          <label className="create-song__label">
+            <span className="create-song__span">Название</span>
             <InputItem
               classes="create-song__input"
               name="title"
@@ -51,7 +53,7 @@ const CreateSong = () => {
           </label>
 
           <label className="create-song__label">
-            <span className="">Метроном</span>
+            <span className="create-song__span">Метроном</span>
             <InputItem
               classes="create-song__input"
               name="metronome"
@@ -61,20 +63,23 @@ const CreateSong = () => {
           </label>
 
           <label className="create-song__label">
-            <span className="">Язык</span>
+            <span className="create-song__span">Язык</span>
             <select
+              // defaultValue='Выберите язык песни'
+              className="create-song__select"
               name="language"
               id="languageSelect"
               onChange={handleSelectChange}
             >
-              <option value="russian">Русский</option>
-              <option value="english">Английский</option>
-              <option value="korean">Корейский</option>
+              <option className="create-song__option" value="">Выберите язык песни</option>
+              <option className="create-song__option" value="russian">Русский</option>
+              <option className="create-song__option" value="english">Английский</option>
+              <option className="create-song__option" value="korean">Корейский</option>
             </select>
           </label>
 
           <label className="create-song__label">
-            <span className="">ТЕКСТ</span>
+            <span className="create-song__span">ТЕКСТ</span>
             <InputItem
               classes="create-song__input"
               name="text"
@@ -84,7 +89,7 @@ const CreateSong = () => {
           </label>
 
           <label className="create-song__label">
-            <span className="">Аккорды</span>
+            <span className="create-song__span">Аккорды</span>
             <InputItem
               classes="create-song__input"
               name="chords"
@@ -94,7 +99,7 @@ const CreateSong = () => {
           </label>
 
           <label className="create-song__label">
-            <span className="">Ссылка на видео Ютуб (iframe)</span>
+            <span className="create-song__span">Ссылка на видео Ютуб (iframe)</span>
             <InputItem
               classes="create-song__input"
               name="linksVideo"

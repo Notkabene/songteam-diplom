@@ -2,8 +2,8 @@ import React from 'react'
 
 const AdminPage = () => {
   return (
-    <main className="">
-      <div className="">
+    <main className="main">
+      <div className="container">
         <h1>AdminPage</h1>
       </div>
     </main>
