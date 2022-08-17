@@ -2,6 +2,7 @@ import {
   createSlice,
   createAction
 } from '@reduxjs/toolkit'
+// import { useNavigate } from 'react-router-dom'
 import songsService from '../services/songs.services'
 
 const songsSlice = createSlice({
@@ -29,12 +30,12 @@ const songsSlice = createSlice({
     },
     songUpdateSuccessed: (state, action) => {
       state.entities[
-        state.entities.findIndex((u) => u.id === action.payload.id)
+        state.entities.findIndex((s) => s.id === action.payload.id)
       ] = action.payload
     },
     songRemoved: (state, action) => {
       state.entities = state.entities.filter(
-        (c) => c._id !== action.payload
+        (s) => s._id !== action.payload
       )
     }
   }
@@ -71,12 +72,13 @@ export const loadSongsList = () => async (dispatch, getState) => {
   }
 }
 
-export const updateSong = (payload) => async (dispatch) => {
+export const updateSong = (payload, songId) => async (dispatch) => {
   dispatch(songUpdateRequested())
+  console.log(songId)
   try {
     const {
       content
-    } = await songsService.update(payload)
+    } = await songsService.update(payload, songId)
     dispatch(songUpdateSuccessed(content))
   } catch (error) {
     dispatch(songUpdateFailed(error.message))
@@ -84,7 +86,6 @@ export const updateSong = (payload) => async (dispatch) => {
 }
 
 export const createSong = (payload) => async (dispatch, getState) => {
-  console.log('store', payload)
   dispatch(addSongRequested())
   try {
     const {

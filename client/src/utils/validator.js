@@ -27,6 +27,12 @@ export function validator (data, config) {
         statusValidate = !digitRegExp.test(data)
         break
       }
+      case 'isAgree': {
+        if (config.password && data) {
+          statusValidate = config.password !== data
+        }
+        break
+      }
       case 'min': {
         statusValidate = data.length < config.value
         break

@@ -98,10 +98,8 @@ router.post('/signInWithPassword', [
       const existingUser = await User.findOne({
         email
       })
-      console.log('email', existingUser);
 
       if (!existingUser) {
-        console.log('email', existingUser);
         return res.status(400).json({
           error: {
             message: 'EMAIL_NOT_FOUND',

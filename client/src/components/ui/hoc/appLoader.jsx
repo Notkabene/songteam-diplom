@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -7,11 +7,12 @@ import {
   loadUsersList
 } from '../../../store/users'
 import { loadSongsList } from '../../../store/songs'
+import Loader from '../loader'
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch()
-  const isLoggedIn = useSelector(getIsLoggedIn())
   const usersStatusLoading = useSelector(getUsersLoadingStatus())
+  const isLoggedIn = useSelector(getIsLoggedIn())
   useEffect(() => {
     dispatch(loadSongsList())
     if (isLoggedIn) {
@@ -19,8 +20,7 @@ const AppLoader = ({ children }) => {
     }
   }, [isLoggedIn])
 
-  if (usersStatusLoading) return 'loading'
-  return children
+  return usersStatusLoading ? <Loader /> : children
 }
 
 AppLoader.propTypes = {

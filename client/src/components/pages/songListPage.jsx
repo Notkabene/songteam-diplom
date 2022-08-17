@@ -1,27 +1,47 @@
-import React from 'react'
-import Search from '../ui/search/search'
-import SongItem from '../ui/songItem/songItem'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getSongs } from '../../store/songs'
 import { Link } from 'react-router-dom'
+import PaginatedItems from '../ui/paginationSongs'
+import InputItem from '../ui/inputItem'
+import Button from '../ui/button'
+import PropTypes from 'prop-types'
+import Loader from '../ui/loader'
 
-const SongListpage = () => {
+const SongListpage = ({ isLoggedIn }) => {
+  const itemsPerPage = 2
+  const [value, setValue] = useState('')
   const songsList = useSelector(getSongs())
-
+  const handleChange = (target) => {
+    const data = target.value
+    setValue(data)
+  }
+  const filteredSong = songsList && songsList.filter((song) => {
+    return song.title.toLowerCase().includes(value.toLowerCase())
+  })
+  if (!songsList) return <Loader/>
   return (
     <main className="main">
-      <div className="container">
-        <Search/>
-        <Link className='' to={'/createsong'}>Создать песню</Link>
-        <div>Сортировка</div>
-        {songsList && <ul>
-          {songsList.map((song) => (
-            <SongItem key={song._id} song={song} />
-          ))}
-        </ul>}
+      <div className="container song-list">
+        <form className="form-search" action="/">
+          <InputItem name="search" type="text" onChange={handleChange} />
+          <Button title="Найти" classes="btn" type="button" />
+        </form>
+        {isLoggedIn &&
+        <Link className="btn song-list__btn" to={'/createsong'}>
+          Создать песню
+        </Link>}
+
+        {filteredSong && (
+          <PaginatedItems items={filteredSong} itemsPerPage={itemsPerPage} />
+        )}
       </div>
     </main>
   )
+}
+
+SongListpage.propTypes = {
+  isLoggedIn: PropTypes.bool
 }
 
 export default SongListpage

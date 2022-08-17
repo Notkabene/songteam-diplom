@@ -8,7 +8,6 @@ import userService from '../services/user.service'
 import {
   generetaAuthError
 } from '../utils/generateAuthError'
-import history from '../utils/history'
 
 const initialState = localStorageService.getAccessToken()
   ? {
@@ -93,8 +92,7 @@ const userUpdateRequested = createAction('users/userUpdateRequested')
 
 export const login =
   ({
-    payload,
-    redirect
+    payload
   }) =>
     async (dispatch) => {
       const {
@@ -111,7 +109,7 @@ export const login =
         dispatch(authRequestSuccess({
           userId: data.userId
         }))
-        history.push(redirect)
+        location.href = '/'
       } catch (error) {
         const {
           code,
@@ -135,7 +133,7 @@ export const signUp = (payload) =>
       dispatch(authRequestSuccess({
         userId: data.userId
       }))
-      history.push('/')
+      location.href = '/'
     } catch (error) {
       dispatch(authRequestFailed(error.message))
     }
@@ -144,13 +142,11 @@ export const logOut = () => async (dispatch) => {
   try {
     localStorageService.removeAuthData()
     dispatch(userLoggedOut())
-    history.push('/')
   } catch (error) {
     dispatch(userUpdateFailed(error.message))
   }
   localStorageService.removeAuthData()
   dispatch(userLoggedOut())
-  history.push('/')
 }
 export const loadUsersList = () => async (dispatch) => {
   dispatch(usersRequested())
@@ -171,7 +167,6 @@ export const updateUser = (payload) => async (dispatch) => {
       content
     } = await userService.update(payload)
     dispatch(userUpdateSuccessed(content))
-    history.push(`/users/${content.id}`)
   } catch (error) {
     dispatch(userUpdateFailed(error.message))
   }
@@ -185,7 +180,7 @@ export const getCurrentUserData = () => (state) => {
 }
 export const getUserById = (userId) => (state) => {
   if (state.users.entities) {
-    return state.users.entities.find((u) => u.id === userId)
+    return state.users.entities.find((u) => u._id === userId)
   }
 }
 

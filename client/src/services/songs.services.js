@@ -19,12 +19,11 @@ const songsService = {
     const req = await httpService.get(songsEndpoint)
     return req.data
   },
-  update: async (payload) => {
-    console.log('payload', payload)
+  update: async (payload, songId) => {
     const {
       data
     } = await httpService.patch(
-      songsEndpoint + payload._id,
+      songsEndpoint + songId,
       payload
     )
     return data
