@@ -6,7 +6,6 @@ import InputItem from '../ui/inputItem'
 import { useDispatch } from 'react-redux'
 import { signUp } from '../../store/users'
 import Avatar from 'avataaars'
-// import localforage from 'localforage'
 
 const Register = () => {
   const navigate = useNavigate()

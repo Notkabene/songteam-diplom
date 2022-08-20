@@ -7,7 +7,6 @@ import { getAuthErrors, login } from '../../store/users'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
-  // const navigate = useNavigate()
   const [data, setData] = useState({
     email: '',
     password: ''

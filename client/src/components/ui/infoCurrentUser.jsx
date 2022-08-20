@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import convert from 'react-from-dom/lib'
 
 const InfoCurrentUser = ({ currentUser }) => {
-  // const isRuleAdmin = currentUser.userRule === 'admin'
-  // console.log(isRuleAdmin)
   const getGenderUser = () => {
     if (currentUser.sex === 'male') {
       return 'мужской'

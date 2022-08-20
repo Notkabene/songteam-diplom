@@ -7,7 +7,6 @@ import { Editor } from '@tinymce/tinymce-react'
 import { createSong } from '../../store/songs'
 import InputItem from '../ui/inputItem'
 import PropTypes from 'prop-types'
-// import MyEditor from './myEditor'
 
 const CreateSong = ({ isLoggedIn }) => {
   const navigate = useNavigate()
@@ -88,7 +87,6 @@ const CreateSong = ({ isLoggedIn }) => {
               <label className="create-song__label">
                 <span className="create-song__span">Язык</span>
                 <select
-                  // defaultValue='Выберите язык песни'
                   className="create-song__select"
                   name="language"
                   id="languageSelect"

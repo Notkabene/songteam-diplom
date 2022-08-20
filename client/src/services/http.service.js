@@ -4,7 +4,6 @@ import {
 } from 'react-toastify'
 import configFile from '../config.json'
 import authService from './auth.service'
-// import authService from './auth.service'
 
 import localStorageService from './localStorage.service'
 

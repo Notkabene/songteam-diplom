@@ -2,7 +2,6 @@ import {
   createSlice,
   createAction
 } from '@reduxjs/toolkit'
-// import { useNavigate } from 'react-router-dom'
 import songsService from '../services/songs.services'
 
 const songsSlice = createSlice({

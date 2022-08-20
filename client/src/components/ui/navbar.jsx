@@ -3,9 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const Navbar = ({ isLoggedIn }) => {
-  // <main className="main create-song">
-  //   <p className='not-access'>Авторизуйтесь для просмотра этой страницы</p>
-  // </main>
   const path = useLocation().pathname
   const navMenu = [
     {
@@ -27,8 +24,6 @@ const Navbar = ({ isLoggedIn }) => {
       link: '/sundayprogramm'
     }
   ]
-
-  // const filteredMenu =
 
   return (
     <nav className="menu">

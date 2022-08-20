@@ -19,10 +19,6 @@ const SongListpage = ({ isLoggedIn, ruleUser }) => {
     setValue(data)
   }
 
-  // const filteredSong = songsList && songsList.filter((song) => {
-  //   return song.title.toLowerCase().includes(value.toLowerCase())
-  // })
-
   useEffect(() => {
     setfilteredSong(
       songsList && songsList.filter((song) =>
