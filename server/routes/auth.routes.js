@@ -6,10 +6,7 @@ const {
   validationResult
 } = require('express-validator')
 
-// TODO: УБРАТЬ generateUserData
-const {
-  generateUserData
-} = require('../utils/helpers')
+
 const tokenService = require("../services/token.service");
 const router = express.Router({
   mergeParams: true
@@ -52,7 +49,6 @@ router.post('/signUp', [
       const hashedPassword = await bcrypt.hash(password, 12)
 
       const newUser = await User.create({
-        ...generateUserData(),
         ...req.body,
         password: hashedPassword
       })

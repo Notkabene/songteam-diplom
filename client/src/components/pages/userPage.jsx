@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getCurrentUserId, getUserById, updateUser } from '../../store/users'
 import PropTypes from 'prop-types'
 import Loader from '../ui/loader'
-import convert from 'react-from-dom/lib'
-import { getBirthday } from '../../utils/getBirthday'
+import InfoCurrentUser from '../ui/infoCurrentUser'
 
 const UserPage = ({ isLoggedIn }) => {
   const params = useParams()
@@ -19,13 +18,17 @@ const UserPage = ({ isLoggedIn }) => {
   const handlePopupClick = () => {
     setIsOpen(!isOpen)
   }
+
   const [data, setData] = useState({
     userRule: 'user'
   })
+
   const handleUpdateUser = () => {
-    dispatch(updateUser(data))
-    setIsOpen(!isOpen)
+    const newData = { ...currentUser, ...data }
+    dispatch(updateUser(newData))
+    window.location.assign(`/userslist/${currentUser._id}`)
   }
+
   const handleSelectChange = ({ target }) => {
     const indexTarget = target.options.selectedIndex
     const TextTarget = target.options[indexTarget].value
@@ -38,36 +41,20 @@ const UserPage = ({ isLoggedIn }) => {
   if (!currentUser) return <Loader/>
 
   return (
-    <main className='main'>
+    <main className='main account-page'>
       {!isLoggedIn
         ? <p className='not-access'>У Вас нет прав для просмотра этой страницы</p>
         : (
-        <div className='container'>
-          <div className='user-page'>
-            <div className='user-page__img'>{convert(currentUser.image)}</div>
-            <h3 className='user-page__name'>
-              {currentUser.name} {currentUser.surname}
-            </h3>
-            <div className='user-page__info'>
-              <p className='user-page__item user-page__email'>
-                <span className='user-page__span'>Почта: </span>{currentUser.email}
-              </p>
-              <p className='user-page__item user-page__rule'>
-                <span className='user-page__span'>Права: </span>{currentUser.userRule}
-              </p>
-              <p className='user-page__item user-page__sex'>
-                <span className='user-page__span'>Пол: </span>{currentUser.sex}
-              </p>
-              <p className='user-page__item user-page__birthday'>
-                <span className='user-page__span'>День рождения: </span>
-              {getBirthday(currentUser.birthday)}
-              </p>
+            <div className='container'>
+              <div className="account-page__wrapper">
+
+                <InfoCurrentUser currentUser={currentUser}/>
+
+                {authUser.userRule === 'admin' && <button className='btn' onClick={handlePopupClick}>
+                  Поменять права этому пользователю
+                </button>}
+                </div>
             </div>
-            {authUser.userRule === 'admin' && <button className='btn' onClick={handlePopupClick}>
-              Поменять права этому пользователю
-            </button>}
-          </div>
-        </div>
           )}
       {isOpen && (
         <div className='popup'>

@@ -30,7 +30,7 @@ const songsSlice = createSlice({
     },
     songUpdateSuccessed: (state, action) => {
       state.entities[
-        state.entities.findIndex((s) => s.id === action.payload.id)
+        state.entities.findIndex((s) => s._id === action.payload._id)
       ] = action.payload
     },
     songRemoved: (state, action) => {
@@ -74,7 +74,6 @@ export const loadSongsList = () => async (dispatch, getState) => {
 
 export const updateSong = (payload, songId) => async (dispatch) => {
   dispatch(songUpdateRequested())
-  console.log(songId)
   try {
     const {
       content

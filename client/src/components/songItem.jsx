@@ -6,13 +6,10 @@ import { Link } from 'react-router-dom'
 import { updateSong } from '../store/songs'
 import { getIsLoggedIn } from '../store/users'
 
-const SongItem = ({ song }) => {
+const SongItem = ({ song, ruleUser }) => {
   const dispatch = useDispatch()
   const isLoggedIn = useSelector(getIsLoggedIn())
-  // const authUserId = useSelector(getCurrentUserId())
-  // const authUser = useSelector(getUserById(authUserId))
-  // const authUserRule = authUser.userRule
-  // console.log(authUserId)
+  const isRuleUser = ruleUser === 'user'
   const handleClick = () => {
     const newSong = { ...song, isConcert: !song.isConcert }
     dispatch(updateSong(newSong, song._id))
@@ -39,7 +36,7 @@ const SongItem = ({ song }) => {
             </Link>
           </div>
           { <div className="song-item__info">
-            {isLoggedIn && <svg
+            {isLoggedIn && !isRuleUser && <svg
               onClick={handleClick}
               className="song-item__svg"
               xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +48,6 @@ const SongItem = ({ song }) => {
                 : <path d="M467.4,212.4H42.9c-24.2,0-43.7,19.6-43.7,43.7s19.6,43.7,43.7,43.7h424.5c24.2,0,43.7-19.6,43.7-43.7S491.5,212.4,467.4,212.4z"/>
             }
             </svg>}
-            {isLoggedIn}
           </div>}
         </div>
       </li>
@@ -60,7 +56,8 @@ const SongItem = ({ song }) => {
 }
 
 SongItem.propTypes = {
-  song: PropTypes.object
+  song: PropTypes.object,
+  ruleUser: PropTypes.string
 }
 
 export default SongItem

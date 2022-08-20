@@ -4,7 +4,7 @@ import { getCurrentUserData, logOut } from '../../store/users'
 import { useDispatch, useSelector } from 'react-redux'
 import convert from 'react-from-dom/lib'
 
-const navProfile = () => {
+const navProfile = ({ handleBurgerClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -19,8 +19,8 @@ const navProfile = () => {
   return (
     <div className="nav-profile">
       <Link to={`/account/${currentUser._id}`} className="nav-profile__user">
-      <div className="nav-profile__img">{convert(currentUser.image)}</div>
-      <div className="nav-profile__name">{currentUser.name}</div>
+        <div className="nav-profile__img">{convert(currentUser.image)}</div>
+        <div className="nav-profile__name">{currentUser.name}</div>
       </Link>
       <button className='btn' type='button' onClick={handleClick}>Выйти</button>
 

@@ -77,31 +77,31 @@ const EditPassword = ({ isLoggedIn }) => {
       {!isLoggedIn
         ? <p className='not-access'>Авторизуйтесь для просмотра этой страницы</p>
         : <div className="container">
-        <form onSubmit={handleSubmit}>
-          <label className="">
-            <span className="">Введите новый пароль</span>
+        <form onSubmit={handleSubmit} className='form-edit'>
+          <label className="form-edit__label">
+            <span className="form-edit__span">Введите новый пароль</span>
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="password"
               onChange={handleChange}
               type="password"
               error={errors.password}
             />
-            <span className=""></span>
           </label>
-          <label className="">
-            <span className="">Введите еще раз</span>
+          <label className="form-edit__label">
+            <span className="form-edit__span">Введите еще раз</span>
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="chekPassword"
               onChange={handleChange}
               type="password"
               error={errors.chekPassword}
             />
-            <span className=""></span>
           </label>
-          <Button classes='' title="Изменить" type="submit" disabled={!isValid}/>
-          <Link to={`/account/${currentUser._id}`}>Выйти без изменений</Link>
+          <div className="account-page__btns">
+            <Button classes='account-page__edit' title="Изменить" type="submit" disabled={!isValid}/>
+            <Link className='btn account-page__out' to={`/account/${currentUser._id}`}>Выйти без изменений</Link>
+          </div>
         </form>
       </div>
     }

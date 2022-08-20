@@ -7,7 +7,7 @@ import InputItem from '../ui/inputItem'
 import PropTypes from 'prop-types'
 import Loader from '../ui/loader'
 
-const SongPage = ({ isLoggedIn }) => {
+const SongPage = ({ isLoggedIn, ruleUser }) => {
   const params = useParams()
   const { songId } = params
   const currentSong = useSelector(getSongsbyId(songId))
@@ -19,8 +19,9 @@ const SongPage = ({ isLoggedIn }) => {
     setIsOpen(!isOpen)
   }
 
+  const isRuleUser = ruleUser === 'user'
+
   const handleDeleteSong = () => {
-    // const newSong = { ...song, isConcert: !song.isConcert }
     dispatch(removeSong(currentSong._id))
     setIsOpen(!isOpen)
     location.href = '/songlist'
@@ -40,7 +41,7 @@ const SongPage = ({ isLoggedIn }) => {
 
   const getContent = (content) => {
     const changeContent = `<div>${content}</div>`
-    const newContent = <div className="">{convert(changeContent)}</div>
+    const newContent = <div className="song-page__consert-content">{convert(changeContent)}</div>
     return newContent
   }
   if (!currentSong) return <Loader />
@@ -48,11 +49,11 @@ const SongPage = ({ isLoggedIn }) => {
     <main className="main">
       <div className="container">
       <div className="song-page">
-        {isLoggedIn && (
-          <div className="song-item__icons">
+      {isLoggedIn && !isRuleUser && (
+          <div className="song-page__icons">
             <svg
               onClick={handlePopupClick}
-              className="song-item__svg"
+              className="song-page__svg"
               xmlns="http://www.w3.org/2000/svg"
               // viewBox="0 0 64 64"
             >
@@ -65,7 +66,7 @@ const SongPage = ({ isLoggedIn }) => {
                 version="1.1"
                 viewBox="0 0 64 64"
                 xmlns="http://www.w3.org/2000/svg"
-                className="song-item__svg"
+                className="song-page__svg"
               >
                 <g>
                   <path d="M55.736,13.636l-4.368-4.362c-0.451-0.451-1.044-0.677-1.636-0.677c-0.592,0-1.184,0.225-1.635,0.676l-3.494,3.484   l7.639,7.626l3.494-3.483C56.639,15.998,56.639,14.535,55.736,13.636z" />
@@ -76,30 +77,35 @@ const SongPage = ({ isLoggedIn }) => {
               </svg>
             </Link>
           </div>
-        )}
-          <h3 className="song-page__title">{currentSong.title}</h3>
-          <div className="">
-            <span>Метроном:</span>
+      )}
+        <div className="song-page__inner">
+
+        <div className="song-page__metronome">
+            <span className="song-page__metronome-title">Метроном: </span>
             {isConcert ? <span>{currentSong.metronome}</span> : <InputItem />}
-          </div>
-          <div className="song-page__text">
-            <span>Текст песни:</span>
+        </div>
+
+        <h3 className="song-page__title">{currentSong.title}</h3>
+          <div className="song-page__text song-page__item">
+            <span className='song-page__subtitle'>Текст песни:</span>
             {getContent(currentSong.text)}
           </div>
 
-          <div className="song-page__chords">
-            <span>Аккорды</span>
+          <div className="song-page__chords song-page__item">
+            <span className='song-page__subtitle'>Аккорды:</span>
             {getContent(currentSong.chords)}
           </div>
 
           <div className="song-page__video">
-            <span>Видео</span>
+            <span className='song-page__subtitle'>Видео:</span>
             {currentSong.linksVideo.length
               ? getVideo(currentSong.linksVideo)
               : (
               <p className="song-page__no-video">Нет видео</p>
                 )}
           </div>
+        </div>
+
         </div>
         {isOpen && (
           <div className="popup">
@@ -127,7 +133,8 @@ const SongPage = ({ isLoggedIn }) => {
 }
 
 SongPage.propTypes = {
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  ruleUser: PropTypes.string
 }
 
 export default SongPage

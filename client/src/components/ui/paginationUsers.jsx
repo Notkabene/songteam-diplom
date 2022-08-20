@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactPaginate from 'react-paginate'
 import UserItem from '../userItem'
+import { useSelector } from 'react-redux'
+import { getCurrentUserId } from '../../store/users'
 
 const PaginatedItems = ({ itemsPerPage, items }) => {
   const [currentItems, setCurrentItems] = useState([])
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
+  const authUserId = useSelector(getCurrentUserId())
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage
@@ -23,7 +26,7 @@ const PaginatedItems = ({ itemsPerPage, items }) => {
     <>
       <ul className='user-list'>
         {currentItems.map((user) => (
-          <UserItem key={user._id} user={user} />
+          user._id !== authUserId && <UserItem key={user._id} user={user} />
         ))}
       </ul>
       {pageCount > 1 && (

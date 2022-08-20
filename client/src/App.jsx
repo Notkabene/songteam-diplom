@@ -19,10 +19,22 @@ import EditUser from './components/pages/editUser'
 import AccountPage from './components/pages/accountpage'
 import EditSong from './components/pages/editSong'
 import EditPassword from './components/pages/editPassword'
-import { getIsLoggedIn } from './store/users'
-import AvatarPage from './components/pages/avatarPage'
+import { getIsLoggedIn, getCurrentUserData } from './store/users'
+
 function App () {
   const isLoggedIn = useSelector(getIsLoggedIn())
+  const authUser = useSelector(getCurrentUserData())
+  const getRuleUser = () => {
+    if (authUser) {
+      return 'guest'
+    } else if (authUser === 'admin') {
+      return 'admin'
+    } else if (authUser === 'editor') {
+      return 'editor'
+    } else {
+      return 'user'
+    }
+  }
 
   return (
     <>
@@ -31,26 +43,39 @@ function App () {
           <Header />
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/avatar" element={<AvatarPage />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/createsong"
-              element={<CreateSong isLoggedIn={isLoggedIn} />}
+              element={
+                <CreateSong isLoggedIn={isLoggedIn} authUser={authUser} />
+              }
             />
             <Route
               path="/editsong/:songId"
-              element={<EditSong isLoggedIn={isLoggedIn} />}
+              element={<EditSong isLoggedIn={isLoggedIn} authUser={authUser} />}
             />
             <Route path="/register" element={<Register />} />
-            <Route path="/songlist/:songId" element={<SongPage isLoggedIn={isLoggedIn} />} />
+            <Route
+              path="/songlist/:songId"
+              element={
+                <SongPage ruleUser={getRuleUser()} isLoggedIn={isLoggedIn} />
+              }
+            />
             <Route
               path="/songlist"
               exact
-              element={<SongListPage isLoggedIn={isLoggedIn} />}
+              element={
+                <SongListPage
+                  isLoggedIn={isLoggedIn}
+                  ruleUser={getRuleUser()}
+                />
+              }
             />
             <Route
               path="/userslist"
-              element={<UsersListPage isLoggedIn={isLoggedIn} />}
+              element={
+                <UsersListPage isLoggedIn={isLoggedIn} authUser={authUser} />
+              }
             />
             <Route
               path="/edituser/:userId"
@@ -70,7 +95,9 @@ function App () {
             />
             <Route
               path="/sundayprogramm"
-              element={<SundayProgramm isLoggedIn={isLoggedIn} />}
+              element={
+                <SundayProgramm isLoggedIn={isLoggedIn} authUser={authUser} />
+              }
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

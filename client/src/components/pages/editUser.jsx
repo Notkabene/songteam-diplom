@@ -98,7 +98,7 @@ const EditUser = ({ isLoggedIn }) => {
     const isValid = validate()
     if (!isValid) return
     dispatch(updateUser(data))
-    navigate(`/userslist/${currentUser._id}`)
+    navigate(`/account/${currentUser._id}`)
   }
 
   const handleChange = (target) => {
@@ -116,7 +116,7 @@ const EditUser = ({ isLoggedIn }) => {
     }))
   }
 
-  const getAvatar = () => {
+  const getAvatar = (avatar) => {
     return (
       <Avatar
         className="avatar"
@@ -134,19 +134,33 @@ const EditUser = ({ isLoggedIn }) => {
     )
   }
 
-  const handleAvatarChange = ({ target }) => {
+  const handleAvatarChange = async ({ target }) => {
     const indexTarget = target.options.selectedIndex
     const valueTarget = target.options[indexTarget].value
-    setAvatar((prevState) => ({
-      ...prevState,
+    const newAvatar = {
+      ...avatar,
       [target.name]: valueTarget
-    }))
+    }
+    setAvatar(newAvatar)
+    getAvatar(newAvatar)
 
-    getAvatar(avatar)
-    const avatarImage = `<img src='https://avataaars.io/?avatarStyle=${avatar.avatarStyle}&topType=${avatar.topType}&accessoriesType=${avatar.accessoriesType}&hairColor=${avatar.hairColor}&facialHairType=${avatar.facialHairType}&clotheType=${avatar.clotheType}&eyeType=${avatar.eyeType}&eyebrowType=${avatar.eyebrowType}&mouthType=${avatar.mouthType}&skinColor=${avatar.skinColor}'/>`
+    const avatarImage = `<img src='https://avataaars.io/?avatarStyle=${newAvatar.avatarStyle}&topType=${newAvatar.topType}&accessoriesType=${newAvatar.accessoriesType}&hairColor=${newAvatar.hairColor}&facialHairType=${newAvatar.facialHairType}&clotheType=${newAvatar.clotheType}&eyeType=${newAvatar.eyeType}&eyebrowType=${newAvatar.eyebrowType}&mouthType=${newAvatar.mouthType}&skinColor=${newAvatar.skinColor}'/>`
+    const avatarNewSettings = {
+      avatarStyle: newAvatar.avatarStyle,
+      topType: newAvatar.topType,
+      accessoriesType: newAvatar.accessoriesType,
+      hairColor: newAvatar.hairColor,
+      facialHairType: newAvatar.facialHairType,
+      clotheType: newAvatar.clotheType,
+      eyeType: newAvatar.eyeType,
+      eyebrowType: newAvatar.eyebrowType,
+      mouthType: newAvatar.mouthType,
+      skinColor: newAvatar.skinColor
+    }
     setData((prevState) => ({
       ...prevState,
-      image: avatarImage
+      image: avatarImage,
+      avatarSettings: avatarNewSettings
     }))
   }
 
@@ -155,59 +169,56 @@ const EditUser = ({ isLoggedIn }) => {
       {!isLoggedIn
         ? <p className='not-access'>Авторизуйтесь для просмотра этой страницы</p>
         : <div className="container">
-        <form onSubmit={handleSubmit}>
-          <label className="">
-            <span className="">Имя</span>
+        <form onSubmit={handleSubmit} className="form-edit">
+          <label className="form-edit__label">
+            <span className="form-edit__span">Имя</span>
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="name"
               defaultValue={currentUser.name}
               onChange={handleChange}
               type="text"
               error={errors.name}
             />
-            <span className=""></span>
           </label>
-          <label className="">
-            <span className="">Фамилия</span>
+          <label className="form-edit__label">
+            <span className="form-edit__span">Фамилия</span>
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="surname"
               defaultValue={currentUser.surname}
               onChange={handleChange}
               type="text"
               error={errors.surname}
             />
-            <span className=""></span>
           </label>
 
-          <label className="">
-            <span className="">День Рождения</span>
+          <label className="form-edit__label">
+            <span className="form-edit__span">День Рождения</span>
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="birthday"
               onChange={handleChange}
               type="date"
               defaultValue={currentUser.birthday}
             />
-            <span className=""></span>
           </label>
 
-          <label className="">
-            <span className="">E-mail</span>
+          <label className="form-edit__label">
+            <span className="form-edit__span">E-mail</span>
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="email"
               type="email"
               defaultValue={currentUser.email}
               error={errors.email}
             />
-            <span className=""></span>
           </label>
 
-          <label className="">
-            <span className="">Пол</span>
+          <label className="form-edit__label">
+            <span className="form-edit__span">Пол</span>
             <select
+            className='form-edit__select'
               name="sex"
               id="sexSelect"
               defaultValue={currentUser.sex}
@@ -216,8 +227,6 @@ const EditUser = ({ isLoggedIn }) => {
               <option value="male">мужской</option>
               <option value="female">женский</option>
             </select>
-
-            <span className=""></span>
           </label>
           <div className="avatar-form">
             {getAvatar(avatar)}

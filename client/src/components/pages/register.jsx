@@ -88,7 +88,7 @@ const Register = () => {
     }
   }
 
-  const getAvatar = () => {
+  const getAvatar = (avatar) => {
     return (
       <Avatar
         className="avatar"
@@ -123,7 +123,6 @@ const Register = () => {
     const isValid = validate()
     if (!isValid) return
     const dateNow = new Date().valueOf()
-    console.log('data', data)
     dispatch(signUp({ ...data, userId: dateNow }))
     navigate('/')
   }
@@ -147,24 +146,24 @@ const Register = () => {
   const handleAvatarChange = ({ target }) => {
     const indexTarget = target.options.selectedIndex
     const valueTarget = target.options[indexTarget].value
-    setAvatar((prevState) => ({
-      ...prevState,
+    const newAvatar = {
+      ...avatar,
       [target.name]: valueTarget
-    }))
-    getAvatar(avatar)
-    const avatarImage = `<img src='https://avataaars.io/?avatarStyle=${avatar.avatarStyle}&topType=${avatar.topType}&accessoriesType=${avatar.accessoriesType}&hairColor=${avatar.hairColor}&facialHairType=${avatar.facialHairType}&clotheType=${avatar.clotheType}&eyeType=${avatar.eyeType}&eyebrowType=${avatar.eyebrowType}&mouthType=${avatar.mouthType}&skinColor=${avatar.skinColor}'/>`
-
+    }
+    setAvatar(newAvatar)
+    getAvatar(newAvatar)
+    const avatarImage = `<img src='https://avataaars.io/?avatarStyle=${newAvatar.avatarStyle}&topType=${newAvatar.topType}&accessoriesType=${newAvatar.accessoriesType}&hairColor=${newAvatar.hairColor}&facialHairType=${newAvatar.facialHairType}&clotheType=${newAvatar.clotheType}&eyeType=${newAvatar.eyeType}&eyebrowType=${newAvatar.eyebrowType}&mouthType=${newAvatar.mouthType}&skinColor=${newAvatar.skinColor}'/>`
     const avatarNewSettings = {
-      avatarStyle: avatar.avatarStyle,
-      topType: avatar.topType,
-      accessoriesType: avatar.accessoriesType,
-      hairColor: avatar.hairColor,
-      facialHairType: avatar.facialHairType,
-      clotheType: avatar.clotheType,
-      eyeType: avatar.eyeType,
-      eyebrowType: avatar.eyebrowType,
-      mouthType: avatar.mouthType,
-      skinColor: avatar.skinColor
+      avatarStyle: newAvatar.avatarStyle,
+      topType: newAvatar.topType,
+      accessoriesType: newAvatar.accessoriesType,
+      hairColor: newAvatar.hairColor,
+      facialHairType: newAvatar.facialHairType,
+      clotheType: newAvatar.clotheType,
+      eyeType: newAvatar.eyeType,
+      eyebrowType: newAvatar.eyebrowType,
+      mouthType: newAvatar.mouthType,
+      skinColor: newAvatar.skinColor
     }
     setData((prevState) => ({
       ...prevState,
@@ -173,81 +172,73 @@ const Register = () => {
     }))
   }
 
-  console.log(avatar.skinColor)
-
   return (
     <main className="main">
       <div className="container">
-        <form className="" onSubmit={handleSubmit}>
-          <label className="">
+        <form className="form-edit" onSubmit={handleSubmit}>
+          <label className="form-edit__label">
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="name"
               onChange={handleChange}
               type="text"
               error={errors.name}
             />
-            <span className="">Имя</span>
-            <span className=""></span>
+            <span className="form-edit__span">Имя</span>
           </label>
 
-          <label className="">
+          <label className="form-edit__label">
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="surname"
               onChange={handleChange}
               type="text"
               error={errors.surname}
             />
-            <span className="">Фамилия</span>
-            <span className=""></span>
+            <span className="form-edit__span">Фамилия</span>
           </label>
 
-          <label className="">
+          <label className="form-edit__label">
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="birthday"
               onChange={handleChange}
               type="date"
             />
-            <span className="">День Рождения</span>
-            <span className=""></span>
+            <span className="form-edit__span">День Рождения</span>
           </label>
 
-          <label className="">
+          <label className="form-edit__label">
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="email"
               type="email"
               onChange={handleChange}
               error={errors.email}
             />
-            <span className="">E-mail</span>
-            <span className=""></span>
+            <span className="form-edit__span">E-mail</span>
           </label>
 
-          <label className="">
+          <label className="form-edit__label">
             <InputItem
-              classes=""
+              classes="form-edit__input"
               name="password"
               onChange={handleChange}
               type="password"
               error={errors.password}
             />
-            <span className="">Пароль</span>
-            <span className=""></span>
+            <span className="form-edit__span">Пароль</span>
           </label>
 
-          <label className="">
-            <select name="sex" id="sexSelect" onChange={handleSelectChange}>
+          <label className="form-edit__label">
+            <select className='form-edit__select' name="sex" id="sexSelect" onChange={handleSelectChange}>
               <option className="create-song__option" value="">
                 Выберите пол
               </option>
               <option value="male">мужской</option>
               <option value="female">женский</option>
             </select>
-            <span className="">Пол</span>
-            <span className=""></span>
+            <span className="form-edit__span">Пол</span>
           </label>
 
           <div className="avatar-form">

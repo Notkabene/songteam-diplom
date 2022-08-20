@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ReactPaginate from 'react-paginate'
 import SongItem from '../songItem'
 
-const PaginatedItems = ({ itemsPerPage, items }) => {
+const PaginatedItems = ({ itemsPerPage, items, ruleUser }) => {
   const [currentItems, setCurrentItems] = useState([])
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
@@ -23,7 +23,7 @@ const PaginatedItems = ({ itemsPerPage, items }) => {
     <>
       <ul>
         {currentItems.map((song) => (
-          <SongItem key={song._id} song={song} />
+          <SongItem key={song._id} song={song} ruleUser={ruleUser} />
         ))}
       </ul>
       {pageCount > 1 && <ReactPaginate
@@ -46,6 +46,7 @@ const PaginatedItems = ({ itemsPerPage, items }) => {
 }
 PaginatedItems.propTypes = {
   itemsPerPage: PropTypes.number,
+  ruleUser: PropTypes.string,
   items: PropTypes.array
 }
 

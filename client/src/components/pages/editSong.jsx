@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSongsbyId, updateSong } from '../../store/songs'
 import InputItem from '../ui/inputItem'
 import Button from '../ui/button'
 import PropTypes from 'prop-types'
+import { Editor } from '@tinymce/tinymce-react'
 
 const EditSong = ({ isLoggedIn }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // const editorRef = useRef()
+  const editorRef = useRef()
   const params = useParams()
   const { songId } = params
   const currentSong = useSelector(getSongsbyId(songId))
@@ -115,20 +116,20 @@ const EditSong = ({ isLoggedIn }) => {
               </label>
               <h2>Текст песни</h2>
               <div>
-                {/* <Editor
+                <Editor
                   id="textChange"
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={currentSong.text}
-                /> */}
+                />
               </div>
 
               <h2>Аккорды</h2>
               <div>
-                {/* <Editor
+                <Editor
                   id="chordsChange"
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={currentSong.chords}
-                /> */}
+                />
               </div>
 
               <ul>
