@@ -6,10 +6,7 @@ const {
   validationResult
 } = require('express-validator')
 
-// TODO: УБРАТЬ generateUserData
-const {
-  generateUserData
-} = require('../utils/helpers')
+
 const tokenService = require("../services/token.service");
 const router = express.Router({
   mergeParams: true
@@ -52,7 +49,6 @@ router.post('/signUp', [
       const hashedPassword = await bcrypt.hash(password, 12)
 
       const newUser = await User.create({
-        ...generateUserData(),
         ...req.body,
         password: hashedPassword
       })
@@ -98,10 +94,8 @@ router.post('/signInWithPassword', [
       const existingUser = await User.findOne({
         email
       })
-      console.log('email', existingUser);
 
       if (!existingUser) {
-        console.log('email', existingUser);
         return res.status(400).json({
           error: {
             message: 'EMAIL_NOT_FOUND',

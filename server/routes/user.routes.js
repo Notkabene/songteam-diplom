@@ -8,8 +8,13 @@ router.patch('/:userId', auth, async (req, res) => {
     const {userId} = req.params
 
     if (userId === req.user.id) {
-      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {new: true})
-      res.send(updatedUser)
+      if(req.body._id) {
+        const updatedUser = await User.findByIdAndUpdate(req.body._id, req.body, {new: true})
+        res.send(updatedUser)
+      } else {
+        const updatedUser = await User.findByIdAndUpdate(userId, req.body, {new: true})
+        res.send(updatedUser)
+      }
     } else {
       res.status(401).json({message: 'Unauthorized'})
     }
@@ -22,7 +27,9 @@ router.patch('/:userId', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
   try {
     const list = await User.find()
-    res.status(200).send(list)
+    setTimeout(() => {
+      res.status(200).send(list)
+    }, 2000);
   } catch (e) {
     res.status(500).json({message: "На сервере произошла ошибка. попробуйте позже"})
   }

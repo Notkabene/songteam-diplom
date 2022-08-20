@@ -3,6 +3,7 @@ import {
   toast
 } from 'react-toastify'
 import configFile from '../config.json'
+import authService from './auth.service'
 // import authService from './auth.service'
 
 import localStorageService from './localStorage.service'
@@ -16,12 +17,11 @@ http.interceptors.request.use(
     const expiresDate = localStorageService.getTokenExpiresDate()
     const refreshToken = localStorageService.getRefreshToken()
     const isExpired = refreshToken && expiresDate < Date.now()
-    console.log(isExpired)
 
-    // if (isExpired) {
-    //   const data = await authService.refresh()
-    //   localStorageService.setTokens(data)
-    // }
+    if (isExpired) {
+      const data = await authService.refresh()
+      localStorageService.setTokens(data)
+    }
     const accessToken = localStorageService.getAccessToken()
 
     if (accessToken) {

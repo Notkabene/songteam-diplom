@@ -1,19 +1,12 @@
 const Song = require('../models/Song')
-const PositionTeam = require('../models/PositionTeam')
-const songsMock = require('../mock/songs.json')
-const positionTeamMock = require('../mock/positionTeam.json')
+// const songsMock = require('../mock/songs.json')
 
 
 module.exports = async () => {
-  const songs = await Song.find()
-  if (songs.length !== songsMock.length) {
-    await createInitialEntity(Song, songsMock)
-  }
-
-  const positions = await PositionTeam.find()
-  if (positions.length !== positionTeamMock.length) {
-    await createInitialEntity(PositionTeam, positionTeamMock)
-  }
+  // const songs = await Song.find()
+  // if (songs.length !== songsMock.length) {
+  //   await createInitialEntity(Song, songsMock)
+  // }
 }
 
 async function createInitialEntity(Model, data) {

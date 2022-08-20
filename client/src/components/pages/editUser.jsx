@@ -1,53 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../ui/button'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { getUserById, getUsersList, updateUser } from '../../store/users'
 import { validator } from '../../utils/validator'
-import { useNavigate } from 'react-router-dom'
 import InputItem from '../ui/inputItem'
-import { useDispatch } from 'react-redux'
-import { signUp } from '../../store/users'
+import Button from '../ui/button'
+import PropTypes from 'prop-types'
 import Avatar from 'avataaars'
-// import localforage from 'localforage'
 
-const Register = () => {
+const EditUser = ({ isLoggedIn }) => {
+  useSelector(getUsersList())
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-    sex: 'female',
-    image: `<img src='https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light'
-    />`,
-    name: '',
-    userRule: 'user',
-    surname: '',
-    avatarSettings: {
-      avatarStyle: 'Transparent',
-      topType: 'LongHairStraight',
-      accessoriesType: 'Blank',
-      hairColor: 'BrownDark',
-      facialHairType: 'Blank',
-      clotheType: 'BlazerShirt',
-      eyeType: 'Default',
-      eyebrowType: 'Default',
-      mouthType: 'Smile',
-      skinColor: 'Light'
-    },
-    birthday: ''
-  })
-  const [avatar, setAvatar] = useState({
-    avatarStyle: 'Transparent',
-    topType: 'LongHairStraight',
-    accessoriesType: 'Blank',
-    hairColor: 'BrownDark',
-    facialHairType: 'Blank',
-    clotheType: 'BlazerShirt',
-    eyeType: 'Default',
-    eyebrowType: 'Default',
-    mouthType: 'Smile',
-    skinColor: 'Light'
-  })
-  const [errors, setErrors] = useState({})
+  const params = useParams()
+  const { userId } = params
+  const currentUser = useSelector(getUserById(userId))
 
+  const [data, setData] = useState({
+    email: `${currentUser.email}`,
+    password: `${currentUser.password}`,
+    sex: `${currentUser.sex}`,
+    image: `${currentUser.image}`,
+    name: `${currentUser.name}`,
+    surname: `${currentUser.surname}`,
+    userRule: `${currentUser.userRule}`,
+    avatarSettings: `${currentUser.avatarSettings}`,
+    birthday: `${currentUser.birthday}`
+  })
+
+  const [avatar, setAvatar] = useState({
+    avatarStyle: `${currentUser.avatarSettings.avatarStyle}`,
+    topType: `${currentUser.avatarSettings.topType}`,
+    accessoriesType: `${currentUser.avatarSettings.accessoriesType}`,
+    hairColor: `${currentUser.avatarSettings.hairColor}`,
+    facialHairType: `${currentUser.avatarSettings.facialHairType}`,
+    clotheType: `${currentUser.avatarSettings.clotheType}`,
+    eyeType: `${currentUser.avatarSettings.eyeType}`,
+    eyebrowType: `${currentUser.avatarSettings.eyebrowType}`,
+    mouthType: `${currentUser.avatarSettings.mouthType}`,
+    skinColor: `${currentUser.avatarSettings.skinColor}`
+  })
+
+  const [errors, setErrors] = useState({})
   const validatorConfig = {
     email: {
       isRequired: {
@@ -88,6 +81,41 @@ const Register = () => {
     }
   }
 
+  useEffect(() => {
+    validate()
+  }, [data])
+
+  const validate = () => {
+    const errors = validator(data, validatorConfig)
+    setErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  const dispatch = useDispatch()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const isValid = validate()
+    if (!isValid) return
+    dispatch(updateUser(data))
+    navigate(`/account/${currentUser._id}`)
+  }
+
+  const handleChange = (target) => {
+    setData((prevState) => ({
+      ...prevState,
+      [target.name]: target.value
+    }))
+  }
+  const handleSelectChange = ({ target }) => {
+    const indexTarget = target.options.selectedIndex
+    const TextTarget = target.options[indexTarget].value
+    setData((prevState) => ({
+      ...prevState,
+      [target.name]: TextTarget
+    }))
+  }
+
   const getAvatar = (avatar) => {
     return (
       <Avatar
@@ -106,44 +134,7 @@ const Register = () => {
     )
   }
 
-  useEffect(() => {
-    validate()
-  }, [data])
-
-  const validate = () => {
-    const errors = validator(data, validatorConfig)
-    setErrors(errors)
-    return Object.keys(errors).length === 0
-  }
-
-  const isValid = Object.keys(errors).length === 0
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const isValid = validate()
-    if (!isValid) return
-    const dateNow = new Date().valueOf()
-    dispatch(signUp({ ...data, userId: dateNow }))
-    navigate('/')
-  }
-
-  const handleChange = (target) => {
-    setData((prevState) => ({
-      ...prevState,
-      [target.name]: target.value
-    }))
-  }
-
-  const handleSelectChange = ({ target }) => {
-    const indexTarget = target.options.selectedIndex
-    const TextTarget = target.options[indexTarget].value
-    setData((prevState) => ({
-      ...prevState,
-      [target.name]: TextTarget
-    }))
-  }
-
-  const handleAvatarChange = ({ target }) => {
+  const handleAvatarChange = async ({ target }) => {
     const indexTarget = target.options.selectedIndex
     const valueTarget = target.options[indexTarget].value
     const newAvatar = {
@@ -152,6 +143,7 @@ const Register = () => {
     }
     setAvatar(newAvatar)
     getAvatar(newAvatar)
+
     const avatarImage = `<img src='https://avataaars.io/?avatarStyle=${newAvatar.avatarStyle}&topType=${newAvatar.topType}&accessoriesType=${newAvatar.accessoriesType}&hairColor=${newAvatar.hairColor}&facialHairType=${newAvatar.facialHairType}&clotheType=${newAvatar.clotheType}&eyeType=${newAvatar.eyeType}&eyebrowType=${newAvatar.eyebrowType}&mouthType=${newAvatar.mouthType}&skinColor=${newAvatar.skinColor}'/>`
     const avatarNewSettings = {
       avatarStyle: newAvatar.avatarStyle,
@@ -174,76 +166,72 @@ const Register = () => {
 
   return (
     <main className="main">
-      <div className="container">
-        <form className="form-edit" onSubmit={handleSubmit}>
+      {!isLoggedIn
+        ? <p className='not-access'>Авторизуйтесь для просмотра этой страницы</p>
+        : <div className="container">
+        <form onSubmit={handleSubmit} className="form-edit">
           <label className="form-edit__label">
+            <span className="form-edit__span">Имя</span>
             <InputItem
               classes="form-edit__input"
               name="name"
+              defaultValue={currentUser.name}
               onChange={handleChange}
               type="text"
               error={errors.name}
             />
-            <span className="form-edit__span">Имя</span>
           </label>
-
           <label className="form-edit__label">
+            <span className="form-edit__span">Фамилия</span>
             <InputItem
               classes="form-edit__input"
               name="surname"
+              defaultValue={currentUser.surname}
               onChange={handleChange}
               type="text"
               error={errors.surname}
             />
-            <span className="form-edit__span">Фамилия</span>
           </label>
 
           <label className="form-edit__label">
+            <span className="form-edit__span">День Рождения</span>
             <InputItem
               classes="form-edit__input"
               name="birthday"
               onChange={handleChange}
               type="date"
+              defaultValue={currentUser.birthday}
             />
-            <span className="form-edit__span">День Рождения</span>
           </label>
 
           <label className="form-edit__label">
+            <span className="form-edit__span">E-mail</span>
             <InputItem
               classes="form-edit__input"
               name="email"
               type="email"
-              onChange={handleChange}
+              defaultValue={currentUser.email}
               error={errors.email}
             />
-            <span className="form-edit__span">E-mail</span>
           </label>
 
           <label className="form-edit__label">
-            <InputItem
-              classes="form-edit__input"
-              name="password"
-              onChange={handleChange}
-              type="password"
-              error={errors.password}
-            />
-            <span className="form-edit__span">Пароль</span>
-          </label>
-
-          <label className="form-edit__label">
-            <select className='form-edit__select' name="sex" id="sexSelect" onChange={handleSelectChange}>
-              <option className="create-song__option" value="">
-                Выберите пол
-              </option>
+            <span className="form-edit__span">Пол</span>
+            <select
+            className='form-edit__select'
+              name="sex"
+              id="sexSelect"
+              defaultValue={currentUser.sex}
+              onChange={handleSelectChange}
+            >
               <option value="male">мужской</option>
               <option value="female">женский</option>
             </select>
-            <span className="form-edit__span">Пол</span>
           </label>
-
           <div className="avatar-form">
             {getAvatar(avatar)}
-            <div className="avatar-form__content">
+              <div className="avatar-form__content">
+
               <div className="avatar-form__group">
                 <label className="avatar-form__label" htmlFor="topType">
                   На голове
@@ -254,7 +242,7 @@ const Register = () => {
                     id="topType"
                     name="topType"
                     className="form-control"
-                    defaultValue={avatar.topType}
+                    defaultValue={currentUser.avatarSettings.topType}
                   >
                     <option value="NoHair">NoHair</option>
                     <option value="Eyepatch">Eyepatch</option>
@@ -326,7 +314,7 @@ const Register = () => {
                     id="accessoriesType"
                     name="accessoriesType"
                     className="form-control"
-                    defaultValue={avatar.accessoriesType}
+                    defaultValue={currentUser.avatarSettings.accessoriesType}
                   >
                     <option value="Blank">Blank</option>
                     <option value="Kurt">Kurt</option>
@@ -348,7 +336,7 @@ const Register = () => {
                     id="hairColor"
                     className="form-control"
                     name="hairColor"
-                    defaultValue={avatar.hairColor}
+                    defaultValue={currentUser.avatarSettings.hairColor}
                   >
                     <option value="Auburn">Auburn</option>
                     <option value="Black">Black</option>
@@ -374,7 +362,7 @@ const Register = () => {
                     id="facialHairType"
                     className="form-control"
                     name="facialHairType"
-                    defaultValue={avatar.facialHairType}
+                    defaultValue={currentUser.avatarSettings.facialHairType}
                   >
                     <option value="Blank">Blank</option>
                     <option value="BeardMedium">BeardMedium</option>
@@ -395,7 +383,7 @@ const Register = () => {
                     id="clotheType"
                     className="form-control"
                     name="clotheType"
-                    defaultValue={avatar.clotheType}
+                    defaultValue={currentUser.avatarSettings.clotheType}
                   >
                     <option value="BlazerShirt">BlazerShirt</option>
                     <option value="BlazerSweater">BlazerSweater</option>
@@ -419,7 +407,7 @@ const Register = () => {
                     id="eyeType"
                     className="form-control"
                     name="eyeType"
-                    defaultValue={avatar.eyeType}
+                    defaultValue={currentUser.avatarSettings.eyeType}
                   >
                     <option value="Close">Close</option>
                     <option value="Cry">Cry</option>
@@ -446,7 +434,7 @@ const Register = () => {
                     name="eyebrowType"
                     id="eyebrowType"
                     className="form-control"
-                    defaultValue={avatar.eyebrowType}
+                    defaultValue={currentUser.avatarSettings.eyebrowType}
                   >
                     <option value="Angry">Angry</option>
                     <option value="AngryNatural">AngryNatural</option>
@@ -477,7 +465,7 @@ const Register = () => {
                     id="mouthType"
                     className="form-control"
                     name="mouthType"
-                    defaultValue={avatar.mouthType}
+                    defaultValue={currentUser.avatarSettings.mouthType}
                   >
                     <option value="Concerned">Concerned</option>
                     <option value="Default">Default</option>
@@ -504,7 +492,7 @@ const Register = () => {
                     id="skinColor"
                     className="form-control"
                     name="skinColor"
-                    defaultValue={avatar.skinColor}
+                    defaultValue={currentUser.avatarSettings.skinColor}
                   >
                     <option value="Tanned">Tanned</option>
                     <option value="Yellow">Yellow</option>
@@ -516,19 +504,16 @@ const Register = () => {
                   </select>
                 </div>
               </div>
+              </div>
             </div>
-          </div>
-
-          <Button
-            classes=""
-            disabled={!isValid}
-            title="Зарегистрироваться"
-            type="submit"
-          />
+          <Button classes="" title="Отправить" type="submit" />
         </form>
       </div>
+    }
     </main>
   )
 }
-
-export default Register
+EditUser.propTypes = {
+  isLoggedIn: PropTypes.bool
+}
+export default EditUser

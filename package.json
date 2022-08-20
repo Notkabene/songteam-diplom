@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@tinymce/tinymce-react": "^4.1.0",
-    "draft-js": "^0.11.7"
-  }
-}
