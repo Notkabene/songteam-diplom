@@ -10,7 +10,7 @@ import Loader from '../ui/loader'
 
 const SongListpage = ({ isLoggedIn, ruleUser }) => {
   const isRuleUser = ruleUser === 'user'
-  const itemsPerPage = 10
+  const itemsPerPage = 5
   const [value, setValue] = useState('')
   const songsList = useSelector(getSongs())
   const [filteredSong, setfilteredSong] = useState([])
