@@ -27,9 +27,7 @@ router.patch('/:userId', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
   try {
     const list = await User.find()
-    setTimeout(() => {
-      res.status(200).send(list)
-    }, 2000);
+    res.status(200).send(list)
   } catch (e) {
     res.status(500).json({message: "На сервере произошла ошибка. попробуйте позже"})
   }

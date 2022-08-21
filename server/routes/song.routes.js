@@ -7,9 +7,8 @@ const router = express.Router({
 router.get('/', async (req, res) => {
   try {
     const list = await Song.find()
-    setTimeout(() => {
-      res.status(200).send(list)
-    }, 2000);
+    res.status(200).send(list)
+
   } catch (e) {
     res.status(500).json({
       message: "На сервере произошла ошибка. попробуйте позже"
